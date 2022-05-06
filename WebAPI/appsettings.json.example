@@ -1,0 +1,16 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "EventDatabase": "...Buraya ConnectionString yazılacak"
+  },
+  "AppSettings": {
+    "Secret": "67661c8f574773404c954e4dc304b138"
+  }
+}

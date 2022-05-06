@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Business.SMTPConfig
+{
+    public class BusinessConfigExample
+    {
+    //E-Posta sunucunuzu ayarlamak için sayfayı kendinize göre düzenleyin ve sonundaki .example uzantısını silin.
+        public static string SMTPCharset = "UTF-8";
+        public static string SMTPAddress = "";
+        public static string SMTPUsername = "";
+        public static string SMTPPassword = "";
+        public static int SMTPPort = 0;
+    }
+}
