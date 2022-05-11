@@ -114,6 +114,8 @@ namespace WebAPI
             services.AddSingleton<IEventJoinsDao, JoinEventsDao>();
             services.AddSingleton<IUpcomingEventsDao, UpcomingEventsDao>();
             services.AddSingleton<IUpcomingEventService, UpcomingEventManager>();
+            services.AddSingleton<IEventRepeatDao, EventRepeatDao>();
+            services.AddSingleton<IEventRepeatService, EventRepeatManager>();
             //services.AddDbContext<AppDbContext>(item => item.UseSqlServer(Configuration.GetConnectionString("EventDatabase")));
         }
 

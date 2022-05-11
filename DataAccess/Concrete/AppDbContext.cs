@@ -31,6 +31,7 @@ namespace DataAccess.Concrete
         public DbSet<User> Users { get; set; }
         public DbSet<JoinEvent> EventJoins { get; set; }
         public DbSet<UpcomingEvent> UpcomingEvents { get; set; }
+        public DbSet<EventRepeat> EventRepeats { get; set; }
 
     }
 }

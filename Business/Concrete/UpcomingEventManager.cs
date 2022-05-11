@@ -15,11 +15,13 @@ namespace Business.Concrete
         IEventService _eventService;
         IInvitationService _invitationService;
         IJoinEventService _joinEventService;
-        public UpcomingEventManager(IUpcomingEventsDao upcomingEventsDao,IEventService eventService,IJoinEventService joinEventService, IInvitationService invitationService)
+        ISMTPMailService _smtpMailService;
+        public UpcomingEventManager(IUpcomingEventsDao upcomingEventsDao,IEventService eventService,IJoinEventService joinEventService, IInvitationService invitationService,ISMTPMailService smtpMailService)
         {
             _upcomingEventsDao = upcomingEventsDao;
             _eventService = eventService;
             _joinEventService = joinEventService;
+            _smtpMailService = smtpMailService;
 
         }
         public IDataResult<List<Event>> GetEventsForTomorrow()
@@ -32,7 +34,7 @@ namespace Business.Concrete
         }
         public IDataResult<List<Event>> GetPublicEventsForThisWeek()
         {
-            DateTime today = DateTime.Now.AddDays(1);
+            DateTime today = DateTime.Now;
             DateTime After7Days = DateTime.Now.AddDays(7);
             //DateTime date1 = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, 0, 0, 1);
             DateTime date2 = new DateTime(After7Days.Year, After7Days.Month, After7Days.Day, 23, 59, 59);
@@ -41,7 +43,7 @@ namespace Business.Concrete
         }
         public IDataResult<List<Event>> GetPublicEventsForThisMonth()
         {
-            DateTime today = DateTime.Now.AddDays(1);
+            DateTime today = DateTime.Now;
             DateTime After30Days = DateTime.Now.AddDays(30);
             //DateTime date1 = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, 0, 0, 1);
             DateTime date2 = new DateTime(After30Days.Year, After30Days.Month, After30Days.Day, 23, 59, 59);
@@ -66,8 +68,16 @@ namespace Business.Concrete
         public IResult SendNext()
         {
             var upcomingEvents = _upcomingEventsDao.GetAll();
-            var upcomingEvent = upcomingEvents[0];
-            return new SuccessResult();
+            if(upcomingEvents.Count > 0)
+            {
+                var upcomingEvent = upcomingEvents[0];
+                
+                _upcomingEventsDao.Delete(upcomingEvent);
+                _smtpMailService.SendReminder(upcomingEvent.EventId);
+                return new SuccessResult(upcomingEvent.EventId + "id'li etkinlik için hatırlatma maili gönderildi");
+            }
+            return new SuccessResult("Yaklaşan bir etkinlik yok");
+
         }
     }
 }

@@ -11,6 +11,7 @@ namespace Business.Abstract
     {
 
         IResult UpdateUpcomingEvents();
+        IResult SendNext();
         IDataResult<List<Event>> GetEventsForTomorrow();
         IDataResult<List<Event>> GetPublicEventsForThisWeek();
         IDataResult<List<Event>> GetPublicEventsForThisMonth();

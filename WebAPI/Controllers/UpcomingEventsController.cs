@@ -24,7 +24,8 @@ namespace WebAPI.Controllers
         [HttpGet("SendUpcomingEventMail")]
         public IActionResult SendUpcomingEventMail()
         {
-            return Ok(_smtpMailService.SendReminder(9));
+            //return Ok(_smtpMailService.SendReminder(9));
+            return Ok(_upcomingEventService.SendNext());
         }
         [HttpGet("UpdateUpcomingEvents")]
         public IActionResult UpdateUpcomingEvents()

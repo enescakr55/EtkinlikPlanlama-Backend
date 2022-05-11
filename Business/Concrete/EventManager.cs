@@ -26,11 +26,21 @@ namespace Business.Concrete
             var user = _userService.GetByUserId(e.EventOwner).Data;
             if(user.IsVerified == false)
             {
-                return new ErrorResult("Etkinlik oluşturmak için lütfen E-Posta adresinizi doğrulayın.");
+                return new ErrorResult("Etkinlik oluşturmak için lütfen E-Posta adresinizi doğrulayın."); 
             }
             if(e.Date < DateTime.Now)
             {
                 return new ErrorResult("Lütfen tarihi kontrol ediniz");
+            }
+            var dtmin = (e.Date.Hour * 60 + e.Date.Minute);
+            if(e.EndDate != null)
+            {
+                var enddatemin = (e.EndDate.Value.Hour * 60 + e.EndDate.Value.Minute);
+                if(dtmin >= enddatemin)
+                {
+                    return new ErrorResult("Başlangıç saati bitiş saatine eşit veya bitiş saatinden büyük olamaz");
+                }
+                e.EndDate = e.EndDate.Value.ToUniversalTime();
             }
             e.Date = e.Date.ToUniversalTime();
             _eventsDao.Add(e);
@@ -64,7 +74,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Event>> GetPublicEvents()
         {
-            return new SuccessDataResult<List<Event>>(_eventsDao.GetAll(x => x.IsPrivate == false));
+            return new SuccessDataResult<List<Event>>(_eventsDao.GetAll(x => x.IsPrivate == false && x.Date.AddHours(1) > DateTime.Now));
         }
 
         public IResult Invite(SendInvitationDTO invitationDto)

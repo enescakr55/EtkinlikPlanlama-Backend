@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Concrete.Helpers;
+using Business.Constants;
 using Core.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
@@ -64,7 +65,7 @@ namespace Business.Concrete
             var codeInfo =_accountValidationCodesDao.Get(x => x.ValidationCode == code);
             if(codeInfo == null)
             {
-                throw new Exception("Hatalı kod girildi");
+                throw new Exception(Messages.InvalidCode);
             }
             else
             {
@@ -72,7 +73,7 @@ namespace Business.Concrete
                 user.Data.IsVerified = true;
                 _userService.Update(user.Data);
             }
-            return new SuccessResult("Hesap onaylandı");
+            return new SuccessResult(Messages.AccountApproved);
         }
     }
 }

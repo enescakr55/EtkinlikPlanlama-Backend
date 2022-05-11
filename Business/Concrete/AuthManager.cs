@@ -11,6 +11,7 @@ using Business.Concrete.Helpers;
 using System.Security.Claims;
 using Core.Results;
 using System.Security.Principal;
+using Business.Constants;
 
 namespace Business.Concrete
 {
@@ -31,11 +32,11 @@ namespace Business.Concrete
         User currentUser = _userService.GetByEmailAndPassword(email, password).Data;
             if(currentUser == null)
             {
-                return new ErrorDataResult<ShowLogin>(default,"Lütfen E-Posta ve Şifrenizi kontrol ediniz");
+                return new ErrorDataResult<ShowLogin>(default,Messages.WrongMailOrPassword);
             }
             else
             {
-                return new SuccessDataResult<ShowLogin>(GetTokenByEmail(email),"Giriş Başarılı");
+                return new SuccessDataResult<ShowLogin>(GetTokenByEmail(email),Messages.SuccessfulLogin);
             }
             
             
@@ -44,7 +45,7 @@ namespace Business.Concrete
 
         public IDataResult<ShowLogin> RenewToken(int id)
         {
-            return new SuccessDataResult<ShowLogin>(GetTokenById(id), "Giriş Başarılı");
+            return new SuccessDataResult<ShowLogin>(GetTokenById(id), Messages.SuccessfulLogin);
         }
 
         public bool ValidateToken(string authToken)

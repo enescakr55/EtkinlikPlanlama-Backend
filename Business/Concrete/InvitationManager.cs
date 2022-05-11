@@ -91,7 +91,7 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<List<EventInvitationDto>>("Davetlerinizi görmek için lütfen E-Posta doğrulaması yapın");
             }
-            return new SuccessDataResult<List<EventInvitationDto>>(_invitationsDao.GetEventInvitations(x=>x.InvitedUserEmail == userEmail));
+            return new SuccessDataResult<List<EventInvitationDto>>(_invitationsDao.GetEventInvitations(x=>x.InvitedUserEmail == userEmail && x.EventDate > DateTime.Now));
         }
 
         public IResult RejectInvitation(string code, string message)

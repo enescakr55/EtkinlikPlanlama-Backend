@@ -20,6 +20,7 @@ namespace Entities.Concrete
         public string EventName { get; set; }
         public string EventDescription { get; set; }
         public DateTime Date { get; set; }
+        public DateTime? EndDate { get; set; }
         public bool IsPrivate { get; set; }
         public bool IsOnline { get; set; }
         public string EventAddress { get; set; }
